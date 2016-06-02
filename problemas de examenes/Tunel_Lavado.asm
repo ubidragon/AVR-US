@@ -1,0 +1,31 @@
+
+.include "m328pdef.inc"
+
+MAIN:	CLR R16 
+	 	OUT DDRB, R16
+	 	LDI R16, $01
+	 	OUT PORTB, R16 ;ACTIVO PULL-UP
+	 	LDI R16, $7F
+	 	OUT DDRD, R16
+	 ;coloco puente en posicion inicial
+	 	CALL VUELTA
+
+ESPERO:	CALL PULSADOR
+		CALL FASE1
+		CALL FASE2		
+		CALL FASE3
+		SBIC PINB,1
+		CALL FASE4
+		CALL FASE5
+		RJMP ESPERO
+
+FASE1: 	SBI PORTD, 0
+		SBI PORTD, 2
+		CALL IDA_VUELTA
+		CBI PORTD, 0
+		CBI PORTD, 2
+		RET 
+		
+
+
+
